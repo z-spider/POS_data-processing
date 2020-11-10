@@ -1,3 +1,4 @@
+if not exist OldData (mkdir OldResult)
 move XSB*.txt "OldResult"
 move YSY*.txt "OldResult"
 move HLB*.txt "OldResult"
