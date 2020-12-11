@@ -12,8 +12,8 @@ print "$posname __________ $time __________ $posname\n";#日志文件抬头,一�
 
 ###交易数据的处理###
 my $T_keyname = Process::hand('交易');#数据文件类型标记，根据文件名而来，分为交易和激活两种类型
-my $T_filepattern = "^.+?pos.*?($T_keyname).+?\\d+_(\\d{6})\\d+\\.xlsx\\.txt\$";#文件名pattern，用keyname过滤文件类型
-my $T_pattern = '^\w+\t.*?\t.*?\t\w+\t(\S+)\t\S+\t\S+\t\S+\t\S+\t\S+\t\S+\t\S+\t([0-9,\.]+)\t';#文件内容pattern
+my $T_filepattern = "^.+?pos.*?($T_keyname).+?\\d+_(\\d{8})\\d+\\.xlsx\\.txt\$";#文件名pattern，用keyname过滤文件类型
+my $T_pattern = '^\w+\t\S*?\t\S*?\t\w+\t(\S+)\t\S+\t\S+\t\S+\t\S+\t\S+\t\S+\t\S+\t\S*?\t([0-9,\.]+)\t';#文件内容pattern
 #这两句话和bless不是很懂
 $T_radeObject = new Process($posname,$T_filepattern,$T_pattern);#按顺序输入参数
 #初始化这一步写的不好，或许可以优化，因为我完全没必要初始化两次（后面还有一次），可不初始化又执行不下去
@@ -23,7 +23,7 @@ my ( $T_outfile, $all_trade) = $T_radeObject->TradeProcess($order, $mapping);#�
 ###激活数据的处理###
 #my $posname = 'HLB';#POS系统名缩写
 my $A_keyname = Process::hand('激活');
-my $A_filepattern = "^.+?pos.*?($A_keyname).+?\\d+_(\\d{6})\\d+\\.xlsx\\.txt\$";
+my $A_filepattern = "^.+?pos.*?($A_keyname).+?\\d+_(\\d{8})\\d+\\.xlsx\\.txt\$";
 my $A_pattern = '^\d+\t.*?\t.*?\t\w+\t(\S+)\t';#文件内容pattern
 $A_ctivateObject = new Process($posname,$A_filepattern,$A_pattern);#按顺序输入参数
 #这里其实没必要存储$order, $mapping
