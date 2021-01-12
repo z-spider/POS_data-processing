@@ -58,7 +58,11 @@ sub parse_xlsx{#解析xlsx并输出，需要两个参数，$worksheet和$filenam
 			my $col = $_;
 			my $cell = @_[0]->get_cell($row,$col);
 			my $value = $cell->value() if(defined $cell);#防止单元格为空
-			push  @shelf,$value;
+			push  @shelf,$value ;#if($value ne '')如果在这里屏蔽空值，会无法处理数据中的空值
+		}
+		for(reverse(0..$#shelf)){#反向遍历数组并清空尾部连续的空值(必须是尾部)
+			pop @shelf;
+			last if($shelf[$_] eq '');
 		}
 		my $shelf = join "\t",@shelf;#输出格式
 		print $HANDLE "$shelf\n";#写入$filename文件
@@ -68,5 +72,4 @@ sub parse_xlsx{#解析xlsx并输出，需要两个参数，$worksheet和$filenam
 		print "Format \"@_[1]\" to \"$FILEHANDLE{$HANDLE}\"\n";#输出转换信息
 		close $HANDLE;
 	}
-
 }
